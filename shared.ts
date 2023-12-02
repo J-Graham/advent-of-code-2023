@@ -6,6 +6,9 @@ export async function readData(path?: string) {
   const fileContent = (await readFile(fileName)).toString();
   const normalizedContent = fileContent.replace(/\r\n/g, '\n');
   const data = normalizedContent.split('\n');
+  if (fs.existsSync('output.log')) {
+    fs.unlinkSync('output.log');
+  }
   return data;
 }
 
