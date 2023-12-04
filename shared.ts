@@ -5,7 +5,11 @@ export async function readData(path?: string) {
   const fileName = path || process.argv[2];
   const fileContent = (await readFile(fileName)).toString();
   const normalizedContent = fileContent.replace(/\r\n/g, '\n');
-  const data = normalizedContent.split('\n');
+  let data = normalizedContent.split('\n');
+  data = data.filter((line, index, array) => {
+    return index === array.length - 1 ? line.trim() !== '' : true;
+  });
+
   if (fs.existsSync('output.log')) {
     fs.unlinkSync('output.log');
   }
